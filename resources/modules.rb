@@ -20,6 +20,6 @@
 actions :create, :remove
 
 attribute :alias, :kind_of => String, :name_attribute => true
-attribute :modules, :kind_of => Arraz, :default => []
+attribute :modules, :kind_of => Array, :default => []
 
 default_action :create
