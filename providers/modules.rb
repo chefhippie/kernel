@@ -34,8 +34,17 @@ action :create do
     )
   end
 
+  kernel_modules new_resource.alias do
+    modules new_resource.modules
+    action :load
+  end
+
+  new_resource.updated_by_last_action(true)
+end
+
+action :load do
   new_resource.modules.each do |name|
-    bash "kernel_module_#{name}" do
+    bash "kernel_load_#{name}" do
       code <<-EOH
         /sbin/modprobe #{name}
       EOH
@@ -51,13 +60,22 @@ action :create do
   new_resource.updated_by_last_action(true)
 end
 
-action :remove do
+action :delete do
+  kernel_modules new_resource.alias do
+    modules new_resource.modules
+    action :unload
+  end
+
   file module_file do
     action :delete
   end
 
+  new_resource.updated_by_last_action(true)
+end
+
+action :unload do
   new_resource.modules.each do |name|
-    bash "kernel_module_#{name}" do
+    bash "kernel_unload_#{name}" do
       code <<-EOH
         /sbin/rmmod #{name}
       EOH

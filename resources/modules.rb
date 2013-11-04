@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-actions :create, :remove
+actions :create, :delete, :load, :unload
 
 attribute :alias, :kind_of => String, :name_attribute => true
 attribute :modules, :kind_of => Array, :default => []
