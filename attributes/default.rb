@@ -18,3 +18,4 @@
 #
 
 default["kernel"]["modules_dir"] = "/etc/modules-load.d"
+default["kernel"]["options_dir"] = "/etc/modprobe.d"

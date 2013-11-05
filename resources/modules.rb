@@ -21,5 +21,6 @@ actions :create, :delete, :load, :unload
 
 attribute :alias, :kind_of => String, :name_attribute => true
 attribute :modules, :kind_of => Array, :default => []
+attribute :options, :kind_of => Array, :default => []
 
 default_action :create

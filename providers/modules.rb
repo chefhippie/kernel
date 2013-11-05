@@ -34,6 +34,23 @@ action :create do
     )
   end
 
+  template options_file do
+    mode 0644
+    owner "root"
+    group "root"
+
+    cookbook "kernel"
+    source "options.conf.erb"
+
+    variables(
+      "options" => new_resource.options
+    )
+
+    not_if do
+      new_resource.options.empty?
+    end
+  end
+
   kernel_modules new_resource.alias do
     modules new_resource.modules
     action :load
@@ -66,6 +83,10 @@ action :delete do
     action :unload
   end
 
+  file options_file do
+    action :delete
+  end
+
   file module_file do
     action :delete
   end
@@ -95,4 +116,8 @@ protected
 
 def module_file
   ::File.join(node["kernel"]["modules_dir"], "#{new_resource.alias}.conf")
+end
+
+def options_file
+  ::File.join(node["kernel"]["options_dir"], "80-#{new_resource.alias}.conf")
 end
