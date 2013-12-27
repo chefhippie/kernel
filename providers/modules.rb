@@ -21,6 +21,8 @@ require "chef/dsl/include_recipe"
 include Chef::DSL::IncludeRecipe
 
 action :create do
+  return unless node["platform_family"] == "suse"
+
   template module_file do
     mode 0644
     owner "root"
@@ -60,6 +62,8 @@ action :create do
 end
 
 action :load do
+  return unless node["platform_family"] == "suse"
+
   new_resource.modules.each do |name|
     bash "kernel_load_#{name}" do
       code <<-EOH
@@ -78,6 +82,8 @@ action :load do
 end
 
 action :delete do
+  return unless node["platform_family"] == "suse"
+
   kernel_modules new_resource.alias do
     modules new_resource.modules
     action :unload
@@ -95,6 +101,8 @@ action :delete do
 end
 
 action :unload do
+  return unless node["platform_family"] == "suse"
+
   new_resource.modules.each do |name|
     bash "kernel_unload_#{name}" do
       code <<-EOH
