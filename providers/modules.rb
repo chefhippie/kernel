@@ -120,8 +120,6 @@ action :unload do
   new_resource.updated_by_last_action(true)
 end
 
-protected
-
 def module_file
   ::File.join(node["kernel"]["modules_dir"], "#{new_resource.alias}.conf")
 end
